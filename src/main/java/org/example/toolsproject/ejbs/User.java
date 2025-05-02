@@ -1,9 +1,8 @@
 package org.example.toolsproject.ejbs;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.example.toolsproject.PostEJBs.Post;
+import org.example.toolsproject.ejbs.PostEJBs.Post;
 
 import java.util.ArrayList;
 import java.util.List;

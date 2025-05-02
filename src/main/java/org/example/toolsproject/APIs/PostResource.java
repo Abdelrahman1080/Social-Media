@@ -1,13 +1,16 @@
 package org.example.toolsproject.APIs;
 
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 
 import jakarta.ws.rs.core.Response;
-import org.example.toolsproject.PostEJBs.Comment;
-import org.example.toolsproject.PostEJBs.Like;
-import org.example.toolsproject.PostEJBs.Post;
+import org.example.toolsproject.ejbs.PostEJBs.Comment;
+import org.example.toolsproject.ejbs.PostEJBs.Like;
+import org.example.toolsproject.ejbs.PostEJBs.Post;
 import org.example.toolsproject.Services.PostService;
 
 @Path("/posts")
@@ -16,10 +19,11 @@ import org.example.toolsproject.Services.PostService;
 public class PostResource {
     @Inject
     private PostService postService;
-
+    @Context
+    private HttpServletRequest request;
     @POST
     public Response createPost(PostDTO postDTO) {
-        // Assume userId is obtained from authentication (e.g., JWT)
+
         Long userId = getAuthenticatedUserId();
         Post post = postService.createPost(userId, postDTO.getContent(), postDTO.getImageUrl(), postDTO.getLinkUrl());
         return Response.status(Response.Status.CREATED).entity(post).build();
@@ -66,9 +70,17 @@ public class PostResource {
     }
 
     private Long getAuthenticatedUserId() {
-        // Placeholder: Implement JWT or session-based authentication
-        return 1L; // Replace with actual user ID from security context
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            throw new WebApplicationException("No session available", Response.Status.UNAUTHORIZED);
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            throw new WebApplicationException("User not authenticated", Response.Status.UNAUTHORIZED);
+        }
+        return userId;
     }
+}
 
     // DTOs for JSON serialization
     class PostDTO {
@@ -92,4 +104,4 @@ public class PostResource {
     }
 
 
-};
+

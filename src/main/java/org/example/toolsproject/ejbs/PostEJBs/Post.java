@@ -1,4 +1,4 @@
-package org.example.toolsproject.PostEJBs;
+package org.example.toolsproject.ejbs.PostEJBs;
 
 
 import jakarta.persistence.*;
