@@ -14,10 +14,10 @@ import java.util.List;
 
 @Stateless
 public class PostService {
-    @PersistenceContext(unitName = "SocialPU")
+    @PersistenceContext
     private EntityManager em;
 
-    // Create Post
+    // Cr e a t e Post from main
     public Post createPost(Long userId, String content, String imageUrl, String linkUrl) {
         User user = em.find(User.class, userId);
         if (user == null) throw new IllegalArgumentException("User not found");
