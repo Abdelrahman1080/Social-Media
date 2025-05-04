@@ -1,13 +1,13 @@
-package org.example.toolsproject.Services;
+package org.example.toolsproject.ejbs;
 
 import jakarta.ejb.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import org.example.toolsproject.ejbs.PostEJBs.Comment;
-import org.example.toolsproject.ejbs.PostEJBs.Like;
-import org.example.toolsproject.ejbs.PostEJBs.Post;
-import org.example.toolsproject.ejbs.User;
+import org.example.toolsproject.Models.Post.Comment;
+import org.example.toolsproject.Models.Post.Like;
+import org.example.toolsproject.Models.Post.Post;
+import org.example.toolsproject.Models.User.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

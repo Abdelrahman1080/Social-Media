@@ -1,8 +1,8 @@
-package org.example.toolsproject.ejbs.Groups;
+package org.example.toolsproject.Models.Groups;
 
 
 import jakarta.persistence.*;
-import org.example.toolsproject.ejbs.User;
+import org.example.toolsproject.Models.User.User;
 
 import java.util.ArrayList;
 import java.util.List;

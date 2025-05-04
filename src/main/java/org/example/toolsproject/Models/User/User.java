@@ -1,8 +1,8 @@
-package org.example.toolsproject.ejbs;
+package org.example.toolsproject.Models.User;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.example.toolsproject.ejbs.PostEJBs.Post;
+import org.example.toolsproject.Models.Post.Post;
 
 import java.util.ArrayList;
 import java.util.List;
