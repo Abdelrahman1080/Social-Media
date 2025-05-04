@@ -1,4 +1,4 @@
-package org.example.toolsproject.Services;
+package org.example.toolsproject.ejbs;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +11,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.*;
 
 import jakarta.ws.rs.core.MediaType;
-import org.example.toolsproject.ejbs.*;
+import org.example.toolsproject.Models.User.*;
 
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)

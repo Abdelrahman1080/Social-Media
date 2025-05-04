@@ -1,4 +1,4 @@
-package org.example.toolsproject.ejbs;
+package org.example.toolsproject.Models.User;
 
 import jakarta.persistence.*;
 

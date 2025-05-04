@@ -8,10 +8,10 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 
 import jakarta.ws.rs.core.Response;
-import org.example.toolsproject.ejbs.PostEJBs.Comment;
-import org.example.toolsproject.ejbs.PostEJBs.Like;
-import org.example.toolsproject.ejbs.PostEJBs.Post;
-import org.example.toolsproject.Services.PostService;
+import org.example.toolsproject.Models.Post.Comment;
+import org.example.toolsproject.Models.Post.Like;
+import org.example.toolsproject.Models.Post.Post;
+import org.example.toolsproject.ejbs.PostService;
 
 @Path("/posts")
 @Produces(MediaType.APPLICATION_JSON)

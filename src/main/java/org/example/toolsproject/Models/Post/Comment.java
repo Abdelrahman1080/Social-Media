@@ -1,7 +1,7 @@
-package org.example.toolsproject.ejbs.PostEJBs;
+package org.example.toolsproject.Models.Post;
 
 import jakarta.persistence.*;
-import org.example.toolsproject.ejbs.User;
+import org.example.toolsproject.Models.User.User;
 
 import java.time.LocalDateTime;
 

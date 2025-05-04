@@ -1,4 +1,4 @@
-package org.example.toolsproject.ejbs;
+package org.example.toolsproject.Models.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
