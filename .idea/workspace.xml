@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a94d7f7-58be-4f39-9184-3cab85f63a36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/ejbs/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/ejbs/PostService.java" afterDir="false" />
-    </list>
+    <list default="true" id="9a94d7f7-58be-4f39-9184-3cab85f63a36" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +83,7 @@
       <option name="presentableId" value="Default" />
       <updated>1746560911672</updated>
       <workItem from="1746560913623" duration="6964000" />
-      <workItem from="1746567947835" duration="69000" />
+      <workItem from="1746567947835" duration="409000" />
     </task>
     <servers />
   </component>
