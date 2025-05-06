@@ -1,8 +1,8 @@
-package org.example.toolsproject.Models.Groups;
+package org.example.toolsproject.models.groups;
 
 
 import jakarta.persistence.*;
-import org.example.toolsproject.Models.User.User;
+import org.example.toolsproject.models.User.User;
 
 @Entity
 public class GroupMembership {

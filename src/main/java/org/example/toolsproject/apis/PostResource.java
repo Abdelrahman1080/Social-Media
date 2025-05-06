@@ -1,4 +1,4 @@
-package org.example.toolsproject.APIs;
+package org.example.toolsproject.apis;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,9 +8,9 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 
 import jakarta.ws.rs.core.Response;
-import org.example.toolsproject.Models.Post.Comment;
-import org.example.toolsproject.Models.Post.Like;
-import org.example.toolsproject.Models.Post.Post;
+import org.example.toolsproject.models.Post.Comment;
+import org.example.toolsproject.models.Post.Like;
+import org.example.toolsproject.models.Post.Post;
 import org.example.toolsproject.ejbs.PostService;
 
 @Path("/posts")

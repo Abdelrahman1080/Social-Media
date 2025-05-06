@@ -11,7 +11,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.*;
 
 import jakarta.ws.rs.core.MediaType;
-import org.example.toolsproject.Models.User.*;
+import org.example.toolsproject.models.User.*;
 
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)

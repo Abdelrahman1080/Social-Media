@@ -1,8 +1,8 @@
-package org.example.toolsproject.Models.Post;
+package org.example.toolsproject.models.Post;
 
 
 import jakarta.persistence.*;
-import org.example.toolsproject.Models.User.User;
+import org.example.toolsproject.models.User.User;
 
 import java.time.LocalDateTime;
 

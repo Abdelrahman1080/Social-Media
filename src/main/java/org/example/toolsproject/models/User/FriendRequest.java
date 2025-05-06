@@ -1,4 +1,4 @@
-package org.example.toolsproject.Models.User;
+package org.example.toolsproject.models.User;
 
 import jakarta.persistence.*;
 

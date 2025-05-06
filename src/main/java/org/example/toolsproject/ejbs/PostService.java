@@ -4,10 +4,10 @@ import jakarta.ejb.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import org.example.toolsproject.Models.Post.Comment;
-import org.example.toolsproject.Models.Post.Like;
-import org.example.toolsproject.Models.Post.Post;
-import org.example.toolsproject.Models.User.User;
+import org.example.toolsproject.models.Post.Comment;
+import org.example.toolsproject.models.Post.Like;
+import org.example.toolsproject.models.Post.Post;
+import org.example.toolsproject.models.User.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

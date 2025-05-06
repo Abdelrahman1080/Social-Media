@@ -1,36 +1,37 @@
-package org.example.toolsproject.Models.Post;
+package org.example.toolsproject.models.groups;
+
 
 import jakarta.persistence.*;
-import org.example.toolsproject.Models.User.User;
+import org.example.toolsproject.models.User.User;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "comments")
-public class Comment {
+@Table(name = "group_posts")
+public class GroupPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(length = 500)
+    @Column(nullable = false)
     private String content;
 
-    @Column(name = "created_at")
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public Post getPost() { return post; }
-    public void setPost(Post post) { this.post = post; }
+    public Group getGroup() { return group; }
+    public void setGroup(Group group) { this.group = group; }
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
     public String getContent() { return content; }
