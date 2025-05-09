@@ -18,6 +18,9 @@ public class User{
     private int id;
 
     @NotNull
+    private String role;
+
+    @NotNull
     private String name;
 
     @NotNull
@@ -56,6 +59,7 @@ public class User{
         this.email = email;
         this.password = password;
         this.bio = bio;
+        this.role = "USER";
     }
 
     public User() {
@@ -70,8 +74,9 @@ public class User{
         return name;
     }
 
+    public String getRole() {return role;}
 
-
+    public void setRole(String role) {this.role = role;}
 
     public void setName(String name) {
         this.name = name;

@@ -11,7 +11,9 @@ public class AdminUser extends User {
     public AdminUser() {}
 
     public AdminUser(String name, String email, String password, String bio) {
+
         super( name,  email,  password,  bio);
+        setRole("ADMIN");
     }
 
 }

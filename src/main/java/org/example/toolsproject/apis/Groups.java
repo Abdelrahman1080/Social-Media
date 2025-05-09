@@ -1,5 +1,7 @@
 package org.example.toolsproject.apis;
 
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +22,7 @@ import org.example.toolsproject.models.groups.GroupMembership;
 @Path("/groups")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@DeclareRoles({"Admin", "User"})
 public class Groups {
 
     private static final String GROUP_NOT_FOUND = "Group not found";
@@ -37,6 +40,7 @@ public class Groups {
     private HttpServletRequest request;
 
     @POST
+    @RolesAllowed("Admin")
     public Response createGroup(GroupDTO groupDto) {
         User creator = getAuthenticatedUser();
         groupBean.createGroup(groupDto, creator);

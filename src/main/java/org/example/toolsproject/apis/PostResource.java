@@ -1,5 +1,7 @@
 package org.example.toolsproject.apis;
 
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import org.example.toolsproject.ejbs.PostService;
 @Path("/posts")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@DeclareRoles({"User", "Admin"})
 public class PostResource {
     @Inject
     private PostService postService;
@@ -39,6 +42,7 @@ public class PostResource {
 
     @PUT
     @Path("/{postId}")
+    @RolesAllowed("Admin")
     public Response updatePost(@PathParam("postId") Long postId, PostDTO postDTO) {
         Long userId = getAuthenticatedUserId();
         Post updatedPost = postService.updatePost(postId, Math.toIntExact(userId), postDTO.getContent(), postDTO.getImageUrl(), postDTO.getLinkUrl());
@@ -47,6 +51,7 @@ public class PostResource {
 
     @DELETE
     @Path("/{postId}")
+    @RolesAllowed("Admin")
     public Response deletePost(@PathParam("postId") Long postId) {
         Long userId = getAuthenticatedUserId();
         postService.deletePost(postId, Math.toIntExact(userId));
