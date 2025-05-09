@@ -10,7 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a94d7f7-58be-4f39-9184-3cab85f63a36" name="Changes" comment="">
-<<<<<<< NezarG
+
       <change afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/ejbs/Notifiactions/NotificationMDB.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Notifications/Notification.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Notifications/NotificationEvent.java" afterDir="false" />
@@ -18,6 +18,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 =======
+=======
+>>>>>>> main
       <change afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/apis/CommentAPI.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/apis/LikeAPI.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/ejbs/CommentLikeService.java" afterDir="false" />
@@ -31,6 +33,8 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Post/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Post/Comment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Post/Like.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Post/Like.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Post/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/toolsproject/models/Post/Post.java" afterDir="false" />
+>>>>>>> main
+=======
 >>>>>>> main
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,16 +63,19 @@
     &quot;assignee&quot;: &quot;Nezarnasser05&quot;
   }
 }</component>
-<<<<<<< NezarG
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Abdelrahman1080/Social-Media&quot;,
     &quot;accountId&quot;: &quot;3469a45d-82f3-4934-92e3-1ca354e08ae3&quot;
 =======
+=======
+>>>>>>> main
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/Abdelrahman1080/Social-Media.git",
     "accountId": "f84ba549-d047-4ea6-a390-ca2eee4580fc"
+>>>>>>> main
+=======
 >>>>>>> main
   }
 }]]></component>
@@ -95,8 +102,11 @@
     "JBoss/WildFly Server.JBoss/WildFly 29.0.5.Final-redhat-000011.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-<<<<<<< NezarG
+
     "git-widget-placeholder": "NezarG",
+=======
+    "git-widget-placeholder": "main",
+>>>>>>> main
 =======
     "git-widget-placeholder": "main",
 >>>>>>> main
@@ -113,7 +123,7 @@
   }
 }]]></component>
   <component name="RunManager">
-<<<<<<< NezarG
+
     <configuration default="true" type="JBossConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <deployment />
       <server-settings>
@@ -127,6 +137,8 @@
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="62214" />
 =======
+=======
+>>>>>>> main
     <configuration name="JBoss/WildFly 29.0.5.Final-redhat-000011" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss/WildFly 29.0.5.Final-redhat-000011" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
@@ -145,6 +157,8 @@
       <predefined_log_file enabled="true" id="JBoss" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="50893" />
+>>>>>>> main
+=======
 >>>>>>> main
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
@@ -194,8 +208,10 @@
       </ConfigurationWrapper>
       <method v="2">
         <option name="Make" enabled="true" />
-<<<<<<< NezarG
+
 =======
+=======
+>>>>>>> main
         <option name="BuildArtifacts" enabled="true">
           <artifact name="toolsProject:war exploded" />
         </option>
@@ -270,15 +286,20 @@
           <artifact name="toolsProject:war exploded" />
         </option>
 >>>>>>> main
+=======
+>>>>>>> main
       </method>
     </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-<<<<<<< NezarG
         <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
         <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+=======
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+>>>>>>> main
 =======
         <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
         <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
@@ -296,9 +317,12 @@
       <updated>1746560911672</updated>
       <workItem from="1746560913623" duration="6964000" />
       <workItem from="1746567947835" duration="409000" />
-<<<<<<< NezarG
+
       <workItem from="1746713596465" duration="1769000" />
       <workItem from="1746793845311" duration="3840000" />
+=======
+      <workItem from="1746716558675" duration="3416000" />
+>>>>>>> main
 =======
       <workItem from="1746716558675" duration="3416000" />
 >>>>>>> main
