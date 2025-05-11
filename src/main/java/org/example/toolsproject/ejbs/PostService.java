@@ -4,6 +4,7 @@ import jakarta.ejb.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.example.toolsproject.models.Post.DTOs.PostDTO;
 import org.example.toolsproject.models.Post.Comment;
 import org.example.toolsproject.models.Post.Like;
 import org.example.toolsproject.models.Post.Post;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @Stateless
 public class PostService {
-    @PersistenceContext
+    @PersistenceContext(unitName = "default")
     private EntityManager em;
 
-    // Cr e a t e Post from main
-    public Post createPost(Long userId, String content, String imageUrl, String linkUrl) {
+    // Cr e a t  e Post from main
+    public Post createPost(int userId, String content, String imageUrl, String linkUrl) {
         User user = em.find(User.class, userId);
         if (user == null) throw new IllegalArgumentException("User not found");
 
@@ -27,37 +28,51 @@ public class PostService {
         post.setContent(content);
         post.setImageUrl(imageUrl);
         post.setLinkUrl(linkUrl);
-        post.setCreatedAt(LocalDateTime.now());
+        post.setCommentcount(0);
+        post.setLikecount(0);
+        post.setCreatedAt(LocalDateTime.now().toString());
         em.persist(post);
         return post;
     }
 
-    // Retrieve Feed  have to do the frienship first
-  /*  public List<Post> getFeed(int userId) {
-        Query query = em.createQuery(
-                "SELECT p FROM Post p WHERE p.user.id = :userId OR p.user.id IN " +
-                        "(SELECT f.friendId FROM Friendship f WHERE f.userId = :userId AND f.status = 'ACCEPTED') " +
-                        "ORDER BY p.createdAt DESC"
-        );
-        query.setParameter("userId", userId);
-        return query.getResultList();
-    }*/
+
 
     // Edit Post
-    public Post updatePost(Long postId, int userId, String content, String imageUrl, String linkUrl) {
-        Post post = em.find(Post.class, postId);
-        if (post == null || post.getUser().getId()!=userId) {
-            throw new IllegalArgumentException("Invalid post or unauthorized");
+    public PostDTO updatePost(int postId, int userId, String content, String imageUrl, String linkUrl,int CommentCount, int LikeCount) {
+        if (postId <= 0 || userId <= 0) {
+            throw new IllegalArgumentException("postId and userId must be positive integers");
         }
+        Post post = em.find(Post.class, postId);
+        if (post == null) {
+            throw new IllegalArgumentException("Post with ID " + postId + " not found");
+        }
+        if (post.getUser().getId() != userId) {
+            throw new IllegalArgumentException("User not authorized to update this post");
+        }
+        // Update fields
         post.setContent(content);
         post.setImageUrl(imageUrl);
         post.setLinkUrl(linkUrl);
+        post.setCommentcount(CommentCount);
+        post.setLikecount(LikeCount);
         em.merge(post);
-        return post;
+        // Return updated DTO
+        return new PostDTO(post.getId(), post.getUser().getId(), post.getContent(), post.getImageUrl(), post.getLinkUrl(),
+                post.getComments() != null ? post.getComments().size() : 0,
+                post.getLikes() != null ? post.getLikes().size() : 0,post.getCreatedAt());
+    }
+    public List<PostDTO> getFeed(int userId) {
+        // Example implementation: Fetch posts for the user (e.g., from friends)
+        return em.createQuery(
+                        "SELECT new org.example.toolsproject.models.Post.DTOs.PostDTO(p.id, p.user.id, p.content, p.imageUrl, p.linkUrl, " +
+                                "SIZE(p.comments), SIZE(p.likes),p.createdAt) " +
+                                "FROM Post p WHERE p.user.id = :userId", PostDTO.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 
     // Delete Post
-    public void deletePost(Long postId, int userId) {
+    public void deletePost(int postId, int userId) {
         Post post = em.find(Post.class, postId);
         if (post == null || post.getUser().getId()!=userId) {
             throw new IllegalArgumentException("Invalid post or unauthorized");
@@ -66,12 +81,12 @@ public class PostService {
     }
 
     // Like Post
-    public Like likePost(Long postId, Long userId) {
+    public Like likePost(int postId, int userId) {
         Post post = em.find(Post.class, postId);
         User user = em.find(User.class, userId);
         if (post == null || user == null) throw new IllegalArgumentException("Invalid post or user");
 
-        Query query = em.createQuery("SELECT l FROM Like l WHERE l.post.id = :postId AND l.user.id = :userId");
+        Query query = em.createQuery("SELECT l FROM Like l WHERE l.post.id = :postId AND l.Likerid = :userId");
         query.setParameter("postId", postId);
         query.setParameter("userId", userId);
         List<Like> existingLikes = query.getResultList();
@@ -79,23 +94,23 @@ public class PostService {
 
         Like like = new Like();
         like.setPost(post);
-        like.setUser(user);
-        like.setCreatedAt(LocalDateTime.now());
+        like.setLikerid(user.getId());
+
         em.persist(like);
         return like;
     }
 
     // Comment on Post
-    public Comment commentOnPost(Long postId, Long userId, String content) {
+    public Comment commentOnPost(int postId, int userId, String content) {
         Post post = em.find(Post.class, postId);
         User user = em.find(User.class, userId);
         if (post == null || user == null) throw new IllegalArgumentException("Invalid post or user");
 
         Comment comment = new Comment();
         comment.setPost(post);
-        comment.setUser(user);
+        comment.setCommenterid(user.getId());
         comment.setContent(content);
-        comment.setCreatedAt(LocalDateTime.now());
+
         em.persist(comment);
         return comment;
     }

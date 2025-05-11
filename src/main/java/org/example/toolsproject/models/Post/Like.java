@@ -2,35 +2,42 @@ package org.example.toolsproject.models.Post;
 
 
 import jakarta.persistence.*;
-import org.example.toolsproject.models.User.User;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "likes")
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private int Likerid;
+
+    public Like(Post post, int userId) {
+        this.post = post;
+        this.Likerid = userId;
+    }
+
+    public Like() {
+
+    }
+
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
     public Post getPost() { return post; }
     public void setPost(Post post) { this.post = post; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public int getLikerid() {
+        return Likerid;
+    }
+
+    public void setLikerid(int likerid) {
+        Likerid = likerid;
+    }
 }

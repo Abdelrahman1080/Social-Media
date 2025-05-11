@@ -1,112 +1,99 @@
 package org.example.toolsproject.apis;
 
-import jakarta.annotation.security.DeclareRoles;
-import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-
 import jakarta.ws.rs.core.Response;
 import org.example.toolsproject.models.Post.Comment;
+import org.example.toolsproject.models.Post.DTOs.CommentDTO;
+import org.example.toolsproject.models.Post.DTOs.PostDTO;
 import org.example.toolsproject.models.Post.Like;
 import org.example.toolsproject.models.Post.Post;
 import org.example.toolsproject.ejbs.PostService;
 
+import java.util.List;
+
 @Path("/posts")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@DeclareRoles({"User", "Admin"})
+@Stateless
 public class PostResource {
     @Inject
     private PostService postService;
-    @Context
-    private HttpServletRequest request;
-    @POST
-    public Response createPost(PostDTO postDTO) {
 
-        Long userId = getAuthenticatedUserId();
-        Post post = postService.createPost(userId, postDTO.getContent(), postDTO.getImageUrl(), postDTO.getLinkUrl());
-        return Response.status(Response.Status.CREATED).entity(post).build();
+    @POST
+    @Path("create-post")
+    public String createPost(  PostDTO postDTO) {
+        try {
+
+            Post post = postService.createPost( postDTO.getuserid(), postDTO.getContent(), postDTO.getImageUrl(), postDTO.getLinkUrl());
+            return "Post created";
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
-    //After creating friendship
-   /* @GET
-    public Response getFeed() {
-        Long userId = getAuthenticatedUserId();
-        List<Post> posts = postService.getFeed(userId);
-        return Response.ok(posts).build();
-    }*/
+    @GET
+    @Path("get/{userId}/posts")
+    public List<PostDTO> getPostsByUserId(@PathParam("userId") int userId) {
+        if (userId <= 0) {
+            throw new WebApplicationException("userId must be a positive integer", Response.Status.BAD_REQUEST);
+        }
+        try {
+            List<PostDTO> posts =   postService.getFeed(userId);
+            return posts ;
+        } catch (Exception e) {
+            throw new WebApplicationException("Failed to retrieve posts: " + e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PUT
-    @Path("/{postId}")
-    @RolesAllowed("Admin")
-    public Response updatePost(@PathParam("postId") Long postId, PostDTO postDTO) {
-        Long userId = getAuthenticatedUserId();
-        Post updatedPost = postService.updatePost(postId, Math.toIntExact(userId), postDTO.getContent(), postDTO.getImageUrl(), postDTO.getLinkUrl());
-        return Response.ok(updatedPost).build();
+    @Path("{postId}")
+    public PostDTO updatePost(@PathParam("postId") int postId, @QueryParam("userId") int userId, PostDTO postDTO) {
+
+        try {
+            PostDTO updatedPost = postService.updatePost(postId, userId, postDTO.getContent(), postDTO.getImageUrl(), postDTO.getLinkUrl(), postDTO.getCommentCount(), postDTO.getLikeCount());
+            if (updatedPost == null) {
+                throw new WebApplicationException("Post not found or user not authorized", Response.Status.NOT_FOUND);
+            }
+            return updatedPost;
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            throw new WebApplicationException("Failed to update post: " + e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DELETE
-    @Path("/{postId}")
-    @RolesAllowed("Admin")
-    public Response deletePost(@PathParam("postId") Long postId) {
-        Long userId = getAuthenticatedUserId();
-        postService.deletePost(postId, Math.toIntExact(userId));
-        return Response.noContent().build();
+    @Path("{postId}")
+    public String updatePost(@PathParam("postId") int postId, @QueryParam("userId") int userId) {
+
+        try {
+            postService.deletePost(postId, userId);
+
+            return " Post deleted Successfully";
+
+        } catch (Exception e) {
+            throw new WebApplicationException("Failed to update post: " + e.getMessage());
+        }
     }
 
     @POST
     @Path("/{postId}/like")
-    public Response likePost(@PathParam("postId") Long postId) {
-        Long userId = getAuthenticatedUserId();
+    public Response likePost(@PathParam("postId") int postId, @QueryParam("userId") int userId) {
+
         Like like = postService.likePost(postId, userId);
         return Response.status(Response.Status.CREATED).entity(like).build();
     }
 
     @POST
     @Path("/{postId}/comment")
-    public Response commentOnPost(@PathParam("postId") Long postId, CommentDTO commentDTO) {
-        Long userId = getAuthenticatedUserId();
+    public Response commentOnPost(@PathParam("postId") int postId, @QueryParam("userId") int userId, CommentDTO commentDTO) {
+
         Comment comment = postService.commentOnPost(postId, userId, commentDTO.getContent());
         return Response.status(Response.Status.CREATED).entity(comment).build();
     }
-
-    private Long getAuthenticatedUserId() {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            throw new WebApplicationException("No session available", Response.Status.UNAUTHORIZED);
-        }
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            throw new WebApplicationException("User not authenticated", Response.Status.UNAUTHORIZED);
-        }
-        return userId;
-    }
 }
-
-    // DTOs for JSON serialization
-    class PostDTO {
-        private String content;
-        private String imageUrl;
-        private String linkUrl;
-
-        public String getContent() { return content; }
-        public void setContent(String content) { this.content = content; }
-        public String getImageUrl() { return imageUrl; }
-        public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
-        public String getLinkUrl() { return linkUrl; }
-        public void setLinkUrl(String linkUrl) { this.linkUrl = linkUrl; }
-    }
-
-    class CommentDTO {
-        private String content;
-
-        public String getContent() { return content; }
-        public void setContent(String content) { this.content = content; }
-    }
-
-
 
