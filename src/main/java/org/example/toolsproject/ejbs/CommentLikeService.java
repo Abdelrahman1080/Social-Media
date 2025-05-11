@@ -3,6 +3,9 @@ package org.example.toolsproject.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.servlet.http.HttpSession;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import org.example.toolsproject.models.Post.Comment;
 import org.example.toolsproject.models.Post.DTOs.CommentDTO;
 import org.example.toolsproject.models.Post.Like;
@@ -71,7 +74,16 @@ public class CommentLikeService {
         if (comment.getCommenterid() != userId) {
             throw new IllegalArgumentException("User not authorized to delete this comment");
         }
+        Post post = comment.getPost();
+
+        // Remove the comment
+        post.getComments().remove(comment);
         em.remove(comment);
+        em.flush(); // Ensure the deletion is committed to the database
+
+        // Refresh the Post to update its comments list
+        em.refresh(post); // This reloads the Post entity, updating the comments list
+
     }
 
     // Like CRUD
@@ -114,7 +126,14 @@ public class CommentLikeService {
         if (likes.isEmpty()) {
             throw new IllegalArgumentException("Like not found for post ID " + postId + " and user ID " + userId);
         }
-        em.remove(likes.get(0));
+        Like likeToDelete = likes.get(0);
+        Post post = likeToDelete.getPost();
+
+        post.getLikes().remove(likeToDelete);
+
+        em.remove(likeToDelete);
+        em.flush();
+
     }
 
     // Placeholder for notification (to be implemented in phase 2)
@@ -122,5 +141,7 @@ public class CommentLikeService {
         System.out.println("Notification: User " + postOwnerId + " should be notified that User " + actorId +
                 " performed action '" + action + "' on post " + postId);
     }
+
+
 
 }

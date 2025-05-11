@@ -4,12 +4,16 @@ import jakarta.ejb.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
 import org.example.toolsproject.models.Post.DTOs.PostDTO;
 import org.example.toolsproject.models.Post.Comment;
 import org.example.toolsproject.models.Post.Like;
 import org.example.toolsproject.models.Post.Post;
 import org.example.toolsproject.models.User.User;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,9 +21,10 @@ import java.util.List;
 public class PostService {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-
+    @Context
+    private HttpServletRequest request;
     // Cr e a t  e Post from main
-    public Post createPost(int userId, String content, String imageUrl, String linkUrl) {
+    public Post createPost( int userId,  String content, String imageUrl, String linkUrl) {
         User user = em.find(User.class, userId);
         if (user == null) throw new IllegalArgumentException("User not found");
 
@@ -38,7 +43,7 @@ public class PostService {
 
 
     // Edit Post
-    public PostDTO updatePost(int postId, int userId, String content, String imageUrl, String linkUrl,int CommentCount, int LikeCount) {
+      public PostDTO updatePost(int postId, int userId, String content, String imageUrl, String linkUrl,int CommentCount, int LikeCount) {
         if (postId <= 0 || userId <= 0) {
             throw new IllegalArgumentException("postId and userId must be positive integers");
         }
@@ -113,5 +118,18 @@ public class PostService {
 
         em.persist(comment);
         return comment;
+    }
+
+
+    private void checkLoggedInUser(int userId) {
+        HttpSession session = request.getSession(false); // false means don't create a new session
+        if (session == null || session.getAttribute("userId") == null) {
+            throw new WebApplicationException("User must be logged in to perform this action", Response.Status.UNAUTHORIZED);
+        }
+
+        int loggedInUserId = (int) session.getAttribute("userId");
+        if (loggedInUserId != userId) {
+            throw new WebApplicationException("User ID does not match the logged-in user", Response.Status.FORBIDDEN);
+        }
     }
 }

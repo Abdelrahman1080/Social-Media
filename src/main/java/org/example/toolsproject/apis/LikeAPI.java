@@ -2,7 +2,10 @@ package org.example.toolsproject.apis;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.example.toolsproject.ejbs.CommentLikeService;
@@ -16,11 +19,14 @@ import java.util.List;
 public class LikeAPI {
     @Inject
     private CommentLikeService commentLikeService;
+    @Context
+    HttpServletRequest request;
     @POST
-    @Path("{postId}/like")
+    @Path("{postId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void createLike(@PathParam("postId") int postId, @QueryParam("userId") int userId) {
-
+    public void createLike(@Context HttpServletRequest request,@PathParam("postId") int postId) {
+        HttpSession session = request.getSession(false);
+        int userId = (Integer) session.getAttribute("userId");
         try {
             commentLikeService.createLike(postId, userId);
         }   catch (Exception e) {
@@ -30,7 +36,7 @@ public class LikeAPI {
 
 
     @GET
-    @Path("{postId}/likes")
+    @Path("{postId}")
     @Produces(MediaType.APPLICATION_JSON)
     public int getLikesByPostId(@PathParam("postId") int postId) {
 
@@ -44,10 +50,11 @@ public class LikeAPI {
 
 
     @DELETE
-    @Path("{postId}/like")
+    @Path("{postId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteLike(@PathParam("postId") int postId, @QueryParam("userId") int userId) {
-
+    public void deleteLike(@Context HttpServletRequest request,@PathParam("postId") int postId) {
+        HttpSession session = request.getSession(false);
+        int userId = (Integer) session.getAttribute("userId");
         try {
             commentLikeService.deleteLike(postId, userId);
         }  catch (Exception e) {

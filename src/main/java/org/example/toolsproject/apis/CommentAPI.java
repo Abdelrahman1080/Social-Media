@@ -1,7 +1,10 @@
 package org.example.toolsproject.apis;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.example.toolsproject.ejbs.CommentLikeService;
@@ -17,15 +20,17 @@ import java.util.List;
 public class CommentAPI {
     @Inject
     private CommentLikeService commentLikeService;
-
+    @Context
+    HttpServletRequest request;
 
 
     @POST
-    @Path("{postId}/comment")
+    @Path("{postId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public CommentDTO createComment(@PathParam("postId") int postId, @QueryParam("userId") int userId, CommentDTO commentDTO) {
-
+    public CommentDTO createComment(@Context HttpServletRequest request,@PathParam("postId") int postId, CommentDTO commentDTO) {
+        HttpSession session = request.getSession(false);
+        int userId = (Integer) session.getAttribute("userId");
         try {
             CommentDTO createdComment = commentLikeService.createComment(postId, userId, commentDTO.getContent());
             return createdComment;
@@ -36,7 +41,7 @@ public class CommentAPI {
 
 
     @GET
-    @Path("{postId}/comments")
+    @Path("{postId}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<CommentDTO> getCommentsByPostId(@PathParam("postId") int postId) {
 
@@ -53,10 +58,11 @@ public class CommentAPI {
 
 
     @DELETE
-    @Path("{postId}/comment/{commentId}")
+    @Path("{postId}/{commentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteComment(@PathParam("postId") int postId, @PathParam("commentId") int commentId, @QueryParam("userId") int userId) {
-
+    public void deleteComment(@Context HttpServletRequest request,@PathParam("postId") int postId, @PathParam("commentId") int commentId) {
+        HttpSession session = request.getSession(false);
+        int userId = (Integer) session.getAttribute("userId");
         try {
             commentLikeService.deleteComment(postId, commentId, userId);
         }  catch (Exception e) {
