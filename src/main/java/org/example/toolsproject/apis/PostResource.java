@@ -75,6 +75,23 @@ public class PostResource {
         }
     }
 
+    @PUT
+    @Path("{postId}")
+    public PostDTO AdminupdatePost(@Context HttpServletRequest request,@PathParam("postId") int postId,@QueryParam("userId") int userId, PostDTO postDTO) {
+
+        try {
+            PostDTO updatedPost = postService.updatePost(postId, userId, postDTO.getContent(), postDTO.getImageUrl(), postDTO.getLinkUrl(), postDTO.getCommentCount(), postDTO.getLikeCount());
+            if (updatedPost == null) {
+                throw new WebApplicationException("Post not found or user not authorized", Response.Status.NOT_FOUND);
+            }
+            return updatedPost;
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+        } catch (Exception e) {
+            throw new WebApplicationException("Failed to update post: " + e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DELETE
     @Path("{postId}")
     public String updatePost(@Context HttpServletRequest request,@PathParam("postId") int postId) {

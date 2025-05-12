@@ -59,6 +59,16 @@ public class UserService {
         }
     }
 
+    public User getTheUser(@PathParam("id") int id) {
+        try {
+            User user = em.find(User.class, id);
+            return (user);
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
 
     public List<UserDTO> getAllUsers() {
         String query = "select u FROM User u";

@@ -3,12 +3,14 @@ package org.example.toolsproject.apis;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.example.toolsproject.ejbs.UserService;
 import org.example.toolsproject.models.groups.GroupDTO;
 import org.example.toolsproject.models.groups.GroupPostDTO;
 import org.example.toolsproject.ejbs.groups.GroupBean;
@@ -36,8 +38,13 @@ public class Groups {
     @EJB
     private GroupPostBean groupPostBean;
 
+    @EJB
+    private UserService userService;
+    private EntityManager em;
+
     @Context
     private HttpServletRequest request;
+
 
     @POST
     @RolesAllowed("Admin")
@@ -202,6 +209,7 @@ public class Groups {
         if (session == null || session.getAttribute("user") == null) {
             throw new WebApplicationException("User not authenticated", Response.Status.UNAUTHORIZED);
         }
-        return (User) session.getAttribute("user");
+        int id=(int) session.getAttribute("userId");
+        return em.find(User.class, id);
     }
 }
